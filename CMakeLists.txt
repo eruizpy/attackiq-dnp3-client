@@ -7,9 +7,7 @@ option(WERROR "Set all warnings to errors" OFF)
 option(STATICLIBS "Builds static versions of all installed libraries" OFF)
 option(COVERAGE "Builds the libraries with coverage info for gcov" OFF)
 
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-parentheses --std=c++11")
-#set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 set(OPENDNP3_LIBRARIES asiodnp3 opendnp3 asiopal openpal)
 
 # ----- client executable -----
