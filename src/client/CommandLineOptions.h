@@ -11,11 +11,14 @@ public:
 
     void Parse(int argc, char** argv);
 
+private:
     TCLAP::CmdLine cmd;
 
-    TCLAP::ValueArg<uint16_t> connectPort;
-    TCLAP::ValueArg<std::string> connectAddress;
+public:
+    TCLAP::ValueArg<uint16_t> hostPort;
+    TCLAP::ValueArg<std::string> hostAddress;
 };
 
 
 #endif //ATTACKIQ_DNP3_CLIENT_COMMANDLINEOPTIONS_H
+
