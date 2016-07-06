@@ -11,5 +11,5 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-parentheses --std=c++11")
 set(OPENDNP3_LIBRARIES asiodnp3 opendnp3 asiopal openpal)
 
 # ----- client executable -----
-add_executable(dnp3-master ./src/client/main.cpp)
+add_executable(dnp3-master ./src/client/main.cpp src/client/SyncVar.h)
 target_link_libraries (dnp3-master LINK_PUBLIC ${OPENDNP3_LIBRARIES} pthread)

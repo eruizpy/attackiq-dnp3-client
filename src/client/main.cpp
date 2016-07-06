@@ -6,6 +6,8 @@
 
 #include <opendnp3/LogLevels.h>
 
+#include "SyncVar.h"
+
 using namespace std;
 using namespace openpal;
 using namespace asiopal;
@@ -21,17 +23,19 @@ int main(int argc, char* argv[])
 	// You can add all the comms logging by uncommenting below
 	const uint32_t FILTERS = levels::NORMAL | levels::ALL_APP_COMMS;
 
+    // we'll use this synchronized variable to monitor the state of the channel
+    SyncVar<ChannelState> channelstate(ChannelState::CLOSED);
+
 	// This is the main point of interaction with the stack
 	DNP3Manager manager(1, ConsoleLogger::Create());
 
 	// Connect via a TCPClient socket to a outstation
 	auto pChannel = manager.AddTCPClient("tcpclient", FILTERS, ChannelRetry::Default(), "127.0.0.1", "0.0.0.0", 20000);
 
-	// Optionally, you can bind listeners to the channel to get state change notifications
-	// This listener just prints the changes to the console
-	pChannel->AddStateListener([](ChannelState state)
+	// update the synchronized variable whenever the channel state changes
+	pChannel->AddStateListener([&channelstate](ChannelState state)
 	{
-		std::cout << "channel state: " << ChannelStateToString(state) << std::endl;
+        channelstate.Set(state);
 	});
 
 	// Create a new master on a previously declared port, with a
@@ -47,8 +51,15 @@ int main(int argc, char* argv[])
 	// Enable the master. This will start communications.
 	master->Enable();
 
-	ControlRelayOutputBlock crob(ControlCode::LATCH_ON);
-	master->SelectAndOperate(crob, 0, PrintingCommandCallback::Get());
+    // Wait for a connection for a period of time
+    if(!channelstate.WaitFor(ChannelState::OPEN, std::chrono::seconds(5)))
+    {
+        std::cerr << "Unable to connect within timeout" << std::endl;
+        return 1;
+    }
+
+	//ControlRelayOutputBlock crob(ControlCode::LATCH_ON);
+	//master->SelectAndOperate(crob, 0, PrintingCommandCallback::Get());
 
 	return 0;
 }
