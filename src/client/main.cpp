@@ -4,7 +4,6 @@
 #include <asiodnp3/DefaultMasterApplication.h>
 #include <asiodnp3/PrintingCommandCallback.h>
 
-#include <asiopal/UTCTimeSource.h>
 
 #include <opendnp3/LogLevels.h>
 
