@@ -16,7 +16,7 @@ using namespace asiopal;
 using namespace asiodnp3;
 using namespace opendnp3;
 
-MasterStackConfig GetMasterConfig();
+MasterStackConfig GetMasterConfig(uint16_t masterAddr, uint16_t outstationAddr);
 
 int main(int argc, char *argv[]) {
 
@@ -49,7 +49,10 @@ int main(int argc, char *argv[]) {
             "master",                                         // id for logging
             PrintingSOEHandler::Instance(),                   // callback for data processing
             DefaultMasterApplication::Instance(),             // master application instance
-            GetMasterConfig()                                 // stack configuration
+            GetMasterConfig(                                  // stack configuration
+                    options.masterAddress.getValue(),
+                    options.outstationAddress.getValue()
+            )
     );
 
     // Enable the master. This will start communications.
@@ -91,7 +94,7 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-MasterStackConfig GetMasterConfig() {
+MasterStackConfig GetMasterConfig(uint16_t masterAddr, uint16_t outstationAddr) {
 
     MasterStackConfig config;
 
@@ -102,8 +105,8 @@ MasterStackConfig GetMasterConfig() {
 
     // You can override the default link layer settings here
     // in this example we've changed the default link layer addressing
-    config.link.LocalAddr = 1;
-    config.link.RemoteAddr = 10;
+    config.link.LocalAddr = masterAddr;
+    config.link.RemoteAddr = outstationAddr;
 
     return config;
 

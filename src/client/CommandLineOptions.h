@@ -17,6 +17,9 @@ private:
 public:
     TCLAP::ValueArg<uint16_t> hostPort;
     TCLAP::ValueArg<std::string> hostAddress;
+
+    TCLAP::ValueArg<uint16_t> masterAddress;
+    TCLAP::ValueArg<uint16_t> outstationAddress;
 };
 
 
