@@ -8,6 +8,7 @@
 #include <future>
 
 #include "SyncVar.h"
+#include "CommandLineOptions.h"
 
 using namespace std;
 using namespace openpal;
@@ -18,6 +19,10 @@ using namespace opendnp3;
 MasterStackConfig GetMasterConfig();
 
 int main(int argc, char *argv[]) {
+
+    CommandLineOptions options;
+    options.Parse(argc, argv);
+
 
     // Specify what log levels to use. NORMAL is warning and above
     // You can add all the comms logging by uncommenting below

@@ -10,6 +10,9 @@ option(COVERAGE "Builds the libraries with coverage info for gcov" OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-parentheses --std=c++11")
 set(OPENDNP3_LIBRARIES asiodnp3 opendnp3 asiopal openpal)
 
+include_directories(./tclap/include)
+
 # ----- client executable -----
-add_executable(dnp3-master ./src/client/main.cpp src/client/SyncVar.h)
+file(GLOB_RECURSE dnp3-master_SRC ./src/client/*.cpp ./src/client/*.h)
+add_executable(dnp3-master ${dnp3-master_SRC})
 target_link_libraries (dnp3-master LINK_PUBLIC ${OPENDNP3_LIBRARIES} pthread)
