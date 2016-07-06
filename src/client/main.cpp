@@ -68,8 +68,10 @@ MasterStackConfig GetMasterConfig()
 {
     MasterStackConfig config;
 
+    config.master.startupIntegrityClassMask = ClassField::None();
+    config.master.unsolClassMask = ClassField::None();
     config.master.disableUnsolOnStartup = false;
-
+    
     // You can override the default link layer settings here
     // in this example we've changed the default link layer addressing
     config.link.LocalAddr = 1;
