@@ -89,6 +89,8 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
+    std::cout << "Command operation completed successfully. Exiting progam" << std::endl;
+
     return 0;
 }
 
