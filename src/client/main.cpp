@@ -35,7 +35,13 @@ int main(int argc, char *argv[]) {
     DNP3Manager manager(1, ConsoleLogger::Create());
 
     // Connect via a TCPClient socket to a outstation
-    auto pChannel = manager.AddTCPClient("tcpclient", FILTERS, ChannelRetry::Default(), options.hostAddress.getValue(), "0.0.0.0", options.hostPort.getValue());
+    auto pChannel = manager.AddTCPClient(
+	"tcpclient",
+	FILTERS,
+	ChannelRetry::Default(),
+	options.hostAddress.getValue(),
+	options.localAdapter.getValue(),
+	options.hostPort.getValue());
 
     // update the synchronized variable whenever the channel state changes
     pChannel->AddStateListener([&channelstate](ChannelState state) {
